@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Window
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import SddmComponents 2.0
 
 Rectangle {
@@ -243,10 +243,12 @@ Rectangle {
                                 sourceSize.height: 40 * s
                                 visible: false
                             }
-                            ColorOverlay {
+                            MultiEffect {
                                 anchors.fill: powerIcon
                                 source: powerIcon
-                                color: "#1B3A5C"
+                                brightness: 1.0
+                                colorization: 1.0
+                                colorizationColor: "#1B3A5C"
                             }
                         }
                         
@@ -310,10 +312,12 @@ Rectangle {
                                 sourceSize.height: 40 * s
                                 visible: false
                             }
-                            ColorOverlay {
+                            MultiEffect {
                                 anchors.fill: sessionIcon
                                 source: sessionIcon
-                                color: "#1B3A5C"
+                                brightness: 1.0
+                                colorization: 1.0
+                                colorizationColor: "#1B3A5C"
                             }
                         }
                         
@@ -385,10 +389,12 @@ Rectangle {
                                 sourceSize.height: 40 * s
                                 visible: false
                             }
-                            ColorOverlay {
+                            MultiEffect {
                                 anchors.fill: rebootIcon
                                 source: rebootIcon
-                                color: "#1B3A5C"
+                                brightness: 1.0
+                                colorization: 1.0
+                                colorizationColor: "#1B3A5C"
                             }
                         }
                         
@@ -452,10 +458,12 @@ Rectangle {
                                 sourceSize.height: 40 * s
                                 visible: false
                             }
-                            ColorOverlay {
+                            MultiEffect {
                                 anchors.fill: suspendIcon
                                 source: suspendIcon
-                                color: "#1B3A5C"
+                                brightness: 1.0
+                                colorization: 1.0
+                                colorizationColor: "#1B3A5C"
                             }
                         }
                         
@@ -520,10 +528,12 @@ Rectangle {
                                 sourceSize.height: 24 * s
                                 visible: false
                             }
-                            ColorOverlay {
+                            MultiEffect {
                                 anchors.fill: lockIcon
                                 source: lockIcon
-                                color: "#7C8CA0"
+                                brightness: 1.0
+                                colorization: 1.0
+                                colorizationColor: "#7C8CA0"
                             }
                         }
                         Text {
