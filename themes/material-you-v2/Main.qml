@@ -383,12 +383,18 @@ Rectangle {
         return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'>" + icons[name] + "</svg>";
     }
 
+    function vnDateString(d) {
+        const days = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+        const months = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+        return days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()];
+    }
+
     function sessionName() {
         return (sessionHelper.currentItem && sessionHelper.currentItem.sName) ? sessionHelper.currentItem.sName : "Plasma";
     }
 
     function userName() {
-        return (userHelper.currentItem && userHelper.currentItem.uName) ? userHelper.currentItem.uName : (userModel.lastUser || "User");
+        return (userHelper.currentItem && userHelper.currentItem.uName) ? userHelper.currentItem.uName : (userModel.lastUser || "Người dùng");
     }
 
     ListView {
@@ -609,7 +615,7 @@ Rectangle {
             Text {
                 id: dateText
                 anchors.centerIn: parent
-                text: Qt.formatDate(root.now, "dddd, MMM d")
+                text: root.vnDateString(root.now)
                 font.family: root.sansFont
                 font.pixelSize: 13 * s
                 font.weight: Font.Medium
@@ -998,7 +1004,7 @@ Rectangle {
                     onWidthChanged: pw.updateScroll()
 
                     Text {
-                        text: pw.hasError ? "Wrong password" : "Enter password"
+                        text: pw.hasError ? "Sai mật khẩu" : "Nhập mật khẩu"
                         font.family: root.sansFont
                         font.pixelSize: pw.fontSize
                         color: pw.hasError ? root.cRed : root.cMid
@@ -1289,7 +1295,7 @@ Rectangle {
                 MenuButton {
                     width: parent.width
                     iconName: "sleep"
-                    label: "Suspend"
+                    label: "Ngủ"
                     accent: root.cMenu1
                     onTriggered: {
                         root.powerMenuOpen = false;
@@ -1299,7 +1305,7 @@ Rectangle {
                 MenuButton {
                     width: parent.width
                     iconName: "reboot"
-                    label: "Reboot"
+                    label: "Khởi động lại"
                     accent: root.cMenu2
                     onTriggered: {
                         root.powerMenuOpen = false;
@@ -1309,7 +1315,7 @@ Rectangle {
                 MenuButton {
                     width: parent.width
                     iconName: "power"
-                    label: "Power off"
+                    label: "Tắt máy"
                     accent: root.cMenuDanger
                     onTriggered: {
                         root.powerMenuOpen = false;
