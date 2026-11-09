@@ -12,7 +12,7 @@ let
     cp -r ${themesDir + "/${cfg.theme}"} $out/share/sddm/themes/${cfg.theme}
   '';
 
-  hasCursor = cfg.cursorName != null;
+  hasCursor = cfg.cursor.name != null;
 in
 {
   options.programs.sddm-themes = {
@@ -24,27 +24,34 @@ in
       example = "material-you";
     };
 
-    cursorName = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      description = "Tên cursor theme cho màn hình đăng nhập.";
-    };
-
-    cursorSize = lib.mkOption {
-      type = lib.types.int;
-      default = 24;
-      description = "Kích thước cursor.";
-    };
-
-    cursorPackage = lib.mkOption {
-      type = lib.types.nullOr lib.types.package;
-      default = null;
-      description = "Package chứa cursor theme, sẽ được thêm vào systemPackages.";
+    cursor = lib.mkOption {
+      default = { };
+      description = "Cursor cho màn hình đăng nhập.";
+      type = lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "Tên cursor theme.";
+          };
+          size = lib.mkOption {
+            type = lib.types.int;
+            default = 24;
+            description = "Kích thước cursor.";
+          };
+          package = lib.mkOption {
+            type = lib.types.nullOr lib.types.package;
+            default = null;
+            description = "Package chứa cursor theme, sẽ được thêm vào systemPackages.";
+          };
+        };
+      };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ themePkg ] ++ lib.optional (cfg.cursorPackage != null) cfg.cursorPackage;
+    environment.systemPackages =
+      [ themePkg ] ++ lib.optional (cfg.cursor.package != null) cfg.cursor.package;
 
     services.xserver.enable = lib.mkDefault true;
 
@@ -53,14 +60,14 @@ in
       theme = cfg.theme;
 
       settings.Theme = lib.mkIf hasCursor {
-        CursorTheme = cfg.cursorName;
-        CursorSize = cfg.cursorSize;
+        CursorTheme = cfg.cursor.name;
+        CursorSize = cfg.cursor.size;
       };
 
       setupScript = lib.mkIf hasCursor ''
         ${pkgs.xrdb}/bin/xrdb -merge <<EOF
-        Xcursor.theme: ${cfg.cursorName}
-        Xcursor.size: ${toString cfg.cursorSize}
+        Xcursor.theme: ${cfg.cursor.name}
+        Xcursor.size: ${toString cfg.cursor.size}
         EOF
       '';
     };
